@@ -1,23 +1,46 @@
 {
   "canisters": {
-    "backend": {
-      "main": "backend/app.mo",
-      "type": "motoko",
-      "args": "--enhanced-orthogonal-persistence"
+    "MetaConnect_backend": {
+      "main": "src/MetaConnect_backend/main.mo",
+      "type": "motoko"
     },
-    "frontend": {
-      "dependencies": ["backend"],
+    "MetaConnect_frontend": {
+      "dependencies": [
+        "MetaConnect_backend"
+      ],
       "frontend": {
-        "entrypoint": "frontend/index.html"
+        "entrypoint": ".output/public/index.html"
       },
-      "source": ["frontend/dist"],
+      "source": [
+        ".output/public"
+      ],
       "type": "assets"
+    },
+    "internet_identity": {
+      "type": "custom",
+      "candid": "https://github.com/dfinity/internet-identity/releases/latest/download/internet_identity.did",
+      "wasm": "https://github.com/dfinity/internet-identity/releases/latest/download/internet_identity_dev.wasm.gz",
+      "remote": {
+        "id": {
+          "ic": "rdmx6-jaaaa-aaaaa-aaadq-cai"
+        }
+      },
+      "frontend": {}
     }
   },
-  "output_env_file": ".env",
+  "networks": {
+    "staging": {
+      "providers": [
+        "https://icp0.io"
+      ],
+      "type": "persistent"
+    }
+  },
   "defaults": {
     "build": {
       "packtool": "mops sources"
     }
-  }
+  },
+  "dfx": "0.28.0",
+  "version": 1
 }
